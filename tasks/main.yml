@@ -246,11 +246,12 @@
       apiVersion: networking.k8s.io/v1
       kind: IngressClass
       metadata:
-        name: nginx
+        name: "{{ ingress_class | default('nginx') }}"
         # annotations:
         #   ingressclass.kubernetes.io/is-default-class: "true"
       spec:
         controller: nginx.org/ingress-controller
+          
 
 
 - name: Install Ingress Nginx CustomResourceDefinition (VirtualServers)
@@ -266,6 +267,7 @@
         name: virtualservers.k8s.nginx.org
       spec:
         group: k8s.nginx.org
+        ingressClassName: "{{ ingress_class | default('nginx') }}"
         names:
           kind: VirtualServer
           listKind: VirtualServerList
@@ -992,6 +994,7 @@
         creationTimestamp: null
         name: virtualserverroutes.k8s.nginx.org
       spec:
+        ingressClassName: "{{ ingress_class | default('nginx') }}"
         group: k8s.nginx.org
         names:
           kind: VirtualServerRoute
@@ -1639,6 +1642,7 @@
         creationTimestamp: null
         name: transportservers.k8s.nginx.org
       spec:
+        ingressClassName: "{{ ingress_class | default('nginx') }}"
         group: k8s.nginx.org
         names:
           kind: TransportServer
@@ -1804,6 +1808,7 @@
         creationTimestamp: null
         name: policies.k8s.nginx.org
       spec:
+        ingressClassName: "{{ ingress_class | default('nginx') }}"
         group: k8s.nginx.org
         names:
           kind: Policy
