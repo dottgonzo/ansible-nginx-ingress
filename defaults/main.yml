@@ -233,7 +233,7 @@
         controller: nginx.org/ingress-controller
 
 
-- name: Install Ingress Nginx IngressClass
+- name: Install Ingress Nginx CustomResourceDefinition
   k8s:
     state: present
     definition:
@@ -295,7 +295,7 @@
         storedVersions: []
 
 
-- name: Install Ingress Nginx IngressClass
+- name: Install Ingress Nginx DaemonSet
   k8s:
     state: present
     definition:
