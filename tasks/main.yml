@@ -218,6 +218,10 @@
         name: nginx-config
         namespace: nginx-ingress
       data:
+        allow-snippet-annotations: 'true'
+        use-forwarded-headers: "{{ 'true' if with_loadbalancer_proxy_protocol is defined else 'false' }}"
+        compute-full-forwarded-for: "{{ 'true' if with_loadbalancer_proxy_protocol is defined else 'false' }}"
+        use-proxy-protocol: "{{ 'true' if with_loadbalancer_proxy_protocol is defined else 'false' }}"
 
 - name: Install Ingress Nginx IngressClass
   k8s:
