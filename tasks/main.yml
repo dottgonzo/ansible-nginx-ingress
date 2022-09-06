@@ -219,9 +219,25 @@
         namespace: nginx-ingress
       data:
         allow-snippet-annotations: 'true'
-        use-forwarded-headers: "{{ 'true' if with_loadbalancer_proxy_protocol is defined else 'false' }}"
-        compute-full-forwarded-for: "{{ 'true' if with_loadbalancer_proxy_protocol is defined else 'false' }}"
-        use-proxy-protocol: "{{ 'true' if with_loadbalancer_proxy_protocol is defined else 'false' }}"
+        proxy-protocol: "True"
+        real-ip-header: "proxy_protocol"
+        set-real-ip-from: "0.0.0.0/0"
+  when:
+    - with_loadbalancer_proxy_protocol is defined
+
+- name: Install Ingress Nginx ConfigMap
+  k8s:
+    state: present
+    definition:
+      kind: ConfigMap
+      apiVersion: v1
+      metadata:
+        name: nginx-config
+        namespace: nginx-ingress
+      data:
+        allow-snippet-annotations: 'true'
+  when:
+    - with_loadbalancer_proxy_protocol is undefined
 
 - name: Install Ingress Nginx IngressClass
   k8s:
