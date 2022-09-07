@@ -2290,7 +2290,7 @@
 #         compute-full-forwarded-for: "{{ 'true' if with_loadbalancer_proxy_protocol is defined else 'false' }}"
 #         use-proxy-protocol: "{{ 'true' if with_loadbalancer_proxy_protocol is defined else 'false' }}"
 
-- name: Wait for Nginx boot
+- name: "Wait for Nginx boot on port {{ nodeHttpPort }}"
 
   wait_for:
     host: "localhost"
