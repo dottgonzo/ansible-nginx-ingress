@@ -2175,6 +2175,7 @@
         name: nginx-ingress
         namespace: "{{ nginx_namespace | default('nginx-ingress') }}"
       spec:
+        ingressClassName: "{{ ingress_class | default('nginx') }}"
         selector:
           matchLabels:
             app: nginx-ingress
