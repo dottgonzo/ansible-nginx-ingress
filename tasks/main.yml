@@ -2303,6 +2303,7 @@
   when:
     - nodeHttpPort is defined
     - nodeHttpsPort is defined
+    - wait_for_boot is defined
 
 - name: Add whoami.local test app
   command: "kubectl apply -f https://raw.githubusercontent.com/dottgonzo/ansible-nginx-ingress/master/files/whoami.yml"
@@ -2310,6 +2311,7 @@
   when:
     - nodeHttpPort is defined
     - nodeHttpsPort is defined
+    - wait_for_boot is defined
   retries: 60
   delay: 10
   register: result
