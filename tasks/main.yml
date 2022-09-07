@@ -1,7 +1,7 @@
 ---
 
 
-- name: Install Ingress Nginx Namespace
+- name: "Install Ingress Nginx Namespace on {{ nginx_namespace | default('nginx-ingress') }}"
   k8s:
     state: present
     definition:
