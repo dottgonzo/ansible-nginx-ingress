@@ -2113,6 +2113,7 @@
         creationTimestamp: null
         name: globalconfigurations.k8s.nginx.org
       spec:
+        ingressClassName: "{{ ingress_class | default('nginx') }}"
         group: k8s.nginx.org
         names:
           kind: GlobalConfiguration
@@ -2186,6 +2187,7 @@
             #prometheus.io/scheme: http
           spec:
             serviceAccountName: nginx-ingress
+            ingressClassName: "{{ ingress_class | default('nginx') }}"
             containers:
             - image: nginx/nginx-ingress:2.3.0
               imagePullPolicy: IfNotPresent
