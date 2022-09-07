@@ -2193,10 +2193,10 @@
               ports:
               - name: http
                 containerPort: 80
-                hostPort: {{ nginx_host_http_port | default(80) }}
+                hostPort: "{{ (nginx_host_http_port | default(80)) | int }}"
               - name: https
                 containerPort: 443
-                hostPort: {{ nginx_host_https_port | default(443) }}
+                hostPort: "{{ (nginx_host_https_port | default(443)) | int }}"
               - name: readiness-port
                 containerPort: 8081
               - name: prometheus
