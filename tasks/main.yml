@@ -17,7 +17,7 @@
       apiVersion: v1
       kind: ServiceAccount
       metadata:
-        name: nginx-ingress 
+        name: "{{ ingress_class | default('nginx') }}"
         namespace: "{{ nginx_namespace | default('nginx-ingress') }}"
 
 
