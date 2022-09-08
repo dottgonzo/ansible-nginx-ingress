@@ -29,7 +29,7 @@
       kind: ClusterRole
       apiVersion: rbac.authorization.k8s.io/v1
       metadata:
-        name: nginx-ingress
+        name: "{{ ingress_class | default('nginx') }}"
       rules:
       - apiGroups:
         - ""
@@ -163,7 +163,7 @@
         name: nginx-ingress
       subjects:
       - kind: ServiceAccount
-        name:  "nginx-ingress"
+        name:  "{{ ingress_class | default('nginx') }}"
         namespace: "{{ nginx_namespace | default('nginx-ingress') }}"
       roleRef:
         kind: ClusterRole
