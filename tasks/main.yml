@@ -160,14 +160,14 @@
       kind: ClusterRoleBinding
       apiVersion: rbac.authorization.k8s.io/v1
       metadata:
-        name: nginx-ingress
+        name: "{{ ingress_class | default('nginx') }}"
       subjects:
       - kind: ServiceAccount
         name:  "{{ ingress_class | default('nginx') }}"
         namespace: "{{ nginx_namespace | default('nginx-ingress') }}"
       roleRef:
         kind: ClusterRole
-        name: nginx-ingress
+        name: "{{ ingress_class | default('nginx') }}"
         apiGroup: rbac.authorization.k8s.io
 
 
@@ -263,17 +263,17 @@
       apiVersion: apps/v1
       kind: DaemonSet
       metadata:
-        name: nginx-ingress
+        name: "{{ ingress_class | default('nginx') }}"
         namespace: "{{ nginx_namespace | default('nginx-ingress') }}"
       spec:
         ingressClassName: "{{ ingress_class | default('nginx') }}"
         selector:
           matchLabels:
-            app: nginx-ingress
+            app: "{{ ingress_class | default('nginx') }}"
         template:
           metadata:
             labels:
-              app: nginx-ingress
+              app: "{{ ingress_class | default('nginx') }}"
           #annotations:
             #prometheus.io/scrape: "true"
             #prometheus.io/port: "9113"
@@ -284,7 +284,7 @@
             containers:
             - image: nginx/nginx-ingress:2.3.0
               imagePullPolicy: IfNotPresent
-              name: nginx-ingress
+              name: "{{ ingress_class | default('nginx') }}"
               ports:
               - name: http
                 containerPort: 80
@@ -349,7 +349,7 @@
       apiVersion: v1
       kind: Service
       metadata:
-        name: nginx-ingress
+        name: "{{ ingress_class | default('nginx') }}"
         namespace: "{{ nginx_namespace | default('nginx-ingress') }}"
       spec:
         type: NodePort 
@@ -365,7 +365,7 @@
           protocol: TCP
           name: https
         selector:
-          app: nginx-ingress
+          app: "{{ ingress_class | default('nginx') }}"
 
   when:
     - nodeHttpPort is defined
