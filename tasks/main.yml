@@ -2238,7 +2238,7 @@
                 - -nginx-configmaps=$(POD_NAMESPACE)/nginx-config
                 - -default-server-tls-secret=$(POD_NAMESPACE)/default-server-secret
                 # - "-election-id=ingress-controller-leader-{{ ingress_class | default('nginx') }}"
-                - "-controller-class={{ ingress_class | default('nginx') }}"
+                # - "-controller-class={{ ingress_class | default('nginx') }}"
                 - "-ingress-class={{ ingress_class | default('nginx') }}"
               #- -v=3 # Enables extensive logging. Useful for troubleshooting.
               #- -report-ingress-status
