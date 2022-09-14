@@ -9,6 +9,7 @@
       kind: Namespace
       metadata:
         name: "{{ nginx_namespace | default('nginx-ingress') }}" 
+  run_once: true
 
 - name: Install Ingress Nginx ServiceAccount
   k8s:
@@ -19,6 +20,7 @@
       metadata:
         name: "{{ ingress_class | default('nginx') }}"
         namespace: "{{ nginx_namespace | default('nginx-ingress') }}"
+  run_once: true
 
 
 
@@ -151,6 +153,7 @@
         - dnsendpoints/status
         verbs:
         - update
+  run_once: true
 
 
 - name: Install Ingress Nginx RBAC (ClusterRoleBinding)
@@ -169,6 +172,7 @@
         kind: ClusterRole
         name: "{{ ingress_class | default('nginx') }}"
         apiGroup: rbac.authorization.k8s.io
+  run_once: true
 
 
 
@@ -189,6 +193,7 @@
   when:
     - nginxCustomCertificateKey is not defined
     - nginxCustomCertificateCrt is not defined
+  run_once: true
 
 - name: Install Ingress Nginx Default Custom Certificate
   k8s:
@@ -206,6 +211,7 @@
   when:
     - nginxCustomCertificateKey is defined
     - nginxCustomCertificateCrt is defined
+  run_once: true
 
 
 - name: Install Ingress Nginx ConfigMap
@@ -224,6 +230,7 @@
         set-real-ip-from: "0.0.0.0/0"
   when:
     - with_loadbalancer_proxy_protocol is defined
+  run_once: true
 
 - name: Install Ingress Nginx ConfigMap
   k8s:
@@ -238,6 +245,7 @@
         allow-snippet-annotations: 'true'
   when:
     - with_loadbalancer_proxy_protocol is undefined
+  run_once: true
 
 - name: Install Ingress Nginx IngressClass
   k8s:
@@ -252,7 +260,8 @@
         #   ingressclass.kubernetes.io/is-default-class: "true"
       spec:
         controller: nginx.org/ingress-controller
-          
+  run_once: true
+
 
 
 
@@ -338,6 +347,7 @@
               #- -external-service=nginx-ingress
               #- -enable-prometheus-metrics
               #- -global-configuration=$(POD_NAMESPACE)/nginx-configuration
+  run_once: true
 
 
 
@@ -370,6 +380,7 @@
   when:
     - nodeHttpPort is defined
     - nodeHttpsPort is defined
+  run_once: true
 
 # - name: Create Ingress-Nginx ConfigMap
 #   k8s:
@@ -404,6 +415,7 @@
     - nodeHttpPort is defined
     - nodeHttpsPort is defined
     - wait_for_boot is defined
+  run_once: true
 
 - name: Add whoami.local test app
   command: "kubectl apply -f https://raw.githubusercontent.com/dottgonzo/ansible-nginx-ingress/master/files/whoami.yml"
@@ -416,5 +428,6 @@
   delay: 10
   register: result
   until: result is not failed
+  run_once: true
 
 
